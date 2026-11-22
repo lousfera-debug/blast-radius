@@ -75,12 +75,31 @@ def on_line(code, line):
                             return None
                     f = f.f_back
                 return None
+            if COLLECTING[0]:
+                o = owner_of(sys._getframe(1))
+                if o is not None:
+                    owner_data.setdefault(o, (set(), set(), set()))[0].add((r, line))
+                return None
         else:
             cur_mod_lines.add((r, line))
     return mon.DISABLE
 
 
 IMPORTING = [False]
+COLLECTING = [False]
+owner_data: dict = {}  # test module -> (lines, types, opens) its module-level code caused
+
+
+def owner_of(f):
+    """The test module whose module-level code is (indirectly) running."""
+    while f is not None:
+        c = f.f_code
+        if not c.co_flags & CO_OPTIMIZED:
+            r = rel(c.co_filename)
+            if r is not None and r.startswith("tests/"):
+                return r
+        f = f.f_back
+    return None
 import_triggers: dict = {}
 
 
@@ -91,6 +110,10 @@ def on_start(code, offset):
     except Exception:
         return
     cur_types.add(type(s))
+    if COLLECTING[0]:
+        o = owner_of(f)
+        if o is not None:
+            owner_data.setdefault(o, (set(), set(), set()))[1].add(type(s))
 
 
 def audit(event, args):
@@ -103,6 +126,10 @@ def audit(event, args):
             r = rel(os.path.abspath(p)) if not os.path.isabs(p) else rel(p)
             if r is not None:
                 cur_opens.add(r)
+                if COLLECTING[0]:
+                    o = owner_of(sys._getframe(1))
+                    if o is not None:
+                        owner_data.setdefault(o, (set(), set(), set()))[2].add(r)
 
 
 def take():
@@ -256,6 +283,14 @@ def pytest_configure(config):
     import_phase = take()
 
 
+def pytest_collection(session):
+    COLLECTING[0] = True
+
+
+def pytest_collection_finish(session):
+    COLLECTING[0] = False
+
+
 def pytest_collectstart(collector):
     if collector.__class__.__name__ == "Module":
         CURRENT[0] = collector.nodeid
@@ -318,7 +353,9 @@ def pytest_unconfigure(config):
     global active
     active = False
     mon.set_events(TOOL, 0)
+    out_owner = {k: _enc((v[0], set(), v[1], v[2])) for k, v in owner_data.items()}
     out = {
+        "owners": out_owner,
         "import": _enc(import_phase) if import_phase else None,
         "collect": {k: _enc(v) for k, v in collect.items()},
         "tests": {k: {ph: _enc(d) for ph, d in v.items()} for k, v in records.items()},

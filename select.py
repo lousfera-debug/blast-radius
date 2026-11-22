@@ -341,6 +341,7 @@ class Analyzer:
         self.why: list[str] = []
         self.is_test_file = path.startswith("tests/")
         self.import_sensitive = False
+        self.sensitive_count = 0
 
     # -- helpers
     def fn_cov(self, fn) -> int:
@@ -379,6 +380,8 @@ class Analyzer:
             m |= name_cov(nm) | func_cov(nm)
             if depth < 4:
                 for f, qual, tg, refs in STATIC_BY_REF.get(nm, ()):
+                    if nm in tg:
+                        continue  # the statement defines the name, it does not read it
                     if qual:
                         cu = usage(f"{module_of(f)}:{qual}") if not f.startswith("tests/") else prefix_tests(f"{f}::{qual.split('.')[0]}")
                         if cu:
@@ -399,6 +402,11 @@ class Analyzer:
             if not self.coding_cookie_changed():
                 self.why.append("comment-only")
                 return 0
+        if self.old.toks is not None and self.new.toks is not None and norm_identity(self.old.toks) == norm_identity(
+            self.new.toks
+        ):
+            self.why.append("is/== on a constant")
+            return 0
         mask = 0
         dels, ins = [], []
         for kind, ol, nl in changes(self.fp):
@@ -412,8 +420,15 @@ class Analyzer:
             mask |= self.at_line(ol, deleted=True)
             if mask == ALL:
                 return ALL
+        deleted = set(dels)
         for ol, nl in ins:
-            mask |= self.at_insert(ol, nl)
+            if ol - 1 in deleted:
+                # a replaced line: the old line's analysis covers its context
+                nchain = chain_at(self.new.tree, nl)
+                if nchain and not any(isinstance(n, FUNC) and not in_header(n, nl) for n in nchain):
+                    mask |= self.level_stmt(self.new, nchain, nl, new_side=True)
+            else:
+                mask |= self.at_insert(ol, nl)
             if mask == ALL:
                 return ALL
         return mask
@@ -488,7 +503,7 @@ class Analyzer:
 
     def level_stmt(self, src: Src, chain, line, new_side=False) -> int:
         """A line in module or class body code (or in a def/class header)."""
-        self.import_sensitive = True
+        self.sensitive_count += 1
         # find the innermost class whose body holds the line
         cls_idx = None
         for i, n in enumerate(chain):
@@ -533,7 +548,17 @@ class Analyzer:
             return self.name_users(targets_of(stmt) + [chain[cls_idx].name]) or ALL
         refine = self.refine_entry(src, stmt, line)
         if refine is not None:
-            return cu & refine
+            cu &= refine
+        tg = targets_of(stmt) if isinstance(stmt, (ast.Assign, ast.AnnAssign, ast.AugAssign)) else []
+        if tg and dialect_specific(self.path) and not any(t in CLASS_CREATION for t in tg):
+            # a setting only read by running code: tests that use the class and run such code
+            self.why.append(f"setting {tg[0]}")
+            try:
+                ast.literal_eval(stmt.value)
+                self.sensitive_count -= 1  # a plain literal cannot break class creation
+            except (ValueError, TypeError, SyntaxError):
+                pass
+            return cu & self.name_users(tg)
         return cu
 
     def refine_entry(self, src: Src, stmt, line):
@@ -615,6 +640,15 @@ class Analyzer:
 
 
 TRIGGERS = M.get("triggers", {})
+CLASS_CREATION = set(M.get("class_creation_names", ()))
+# Expensive tests that only ever failed when sqlglot or a module could not be imported.
+RARE = {"tests/test_generator.py::TestGenerator::test_generator_memory",
+        "tests/test_parser.py::TestParser::test_max_nodes"}
+
+
+def dialect_specific(path: str) -> bool:
+    m = re.match(r"sqlglot/(dialects|parsers|generators|typing)/(\w+)\.py$", path)
+    return bool(m) and m.group(2) not in ("dialect", "base", "__init__")
 
 LAZY_LOAD_TEST = "tests/dialects/test_dialect.py::TestDialect::test_lazy_load"
 
@@ -650,13 +684,12 @@ except BaseException as e:
 else:
     names = [m.name for m in pkgutil.walk_packages(sqlglot.__path__, "sqlglot.") if m.name != "sqlglot.__main__"]
     want = [n for n in names if (n.replace(".", "/") + ".py") in ov or (n.replace(".", "/") + "/__init__.py") in ov]
-    for n in (want + [n for n in names if n not in want]) if want else []:
+    # every module: some build expressions while importing, so a change elsewhere breaks them
+    for n in want + [n for n in names if n not in want]:
         try:
             importlib.import_module(n)
         except BaseException as e:
             out["bad"].append(n)
-        if n == (want[-1] if want else None) and not out["bad"]:
-            break
 print(json.dumps(out))
 '''
 
@@ -732,6 +765,32 @@ def trigger_effect(path: str, line: int) -> int:
     return ALL
 
 
+def norm_identity(toks):
+    """Token stream with `is`/`is not` against None/True/False/ENUM.MEMBER written as ==/!=.
+
+    For those operands identity and equality agree, so the rewrite cannot change behaviour."""
+    out = []
+    i, n = 0, len(toks)
+    while i < n:
+        typ, s = toks[i]
+        if s == "is" and typ == tokenize.NAME:
+            j = i + 1
+            op = "=="
+            if j < n and toks[j][1] == "not":
+                op, j = "!=", j + 1
+            if j < n and (toks[j][1] in ("None", "True", "False") or (
+                toks[j][0] == tokenize.NAME and j + 2 < n and toks[j + 1][1] == "."
+                and toks[j + 2][1].isupper() and toks[j][1][:1].isupper()
+                and not (j + 3 < n and toks[j + 3][1] in (".", "(", "["))
+            )):
+                out.append((tokenize.OP, op))
+                i = j
+                continue
+        out.append((typ, s))
+        i += 1
+    return out
+
+
 def analyze_py(path: str, fp: FilePatch, why: list, overrides: dict) -> int:
     src_file = SRC / path
     old_text = src_file.read_text(encoding="utf-8").replace("\r\n", "\n") if src_file.exists() else ""
@@ -746,7 +805,7 @@ def analyze_py(path: str, fp: FilePatch, why: list, overrides: dict) -> int:
     m = a.run()
     if a.why:
         why.append(f"{path}: {'; '.join(a.why[:3])}")
-    if a.import_sensitive and path.startswith("sqlglot/") and m != ALL:
+    if (a.import_sensitive or a.sensitive_count > 0) and path.startswith("sqlglot/") and m != ALL:
         overrides[path] = new_text
     return m
 
@@ -793,10 +852,11 @@ def analyze(patch_text: str):
             if res["core"]:
                 why.append(f"import sqlglot fails: {res['core'][:80]}")
                 return ALL, why
-            for mod in res["bad"]:
-                mask |= module_touch(mod)
             if res["bad"]:
+                # test files import dialects and helpers while collecting: a module that
+                # fails to import can take whole files down
                 why.append(f"import fails: {res['bad'][:4]}")
+                return ALL, why
     return mask, why
 
 
@@ -839,6 +899,10 @@ def main() -> None:
         except Exception as e:  # never die: run everything
             log(f"{patch.stem}: error {e!r}")
             mask, why = ALL, ["error"]
+        if mask != ALL and not any("import fails" in w for w in why):
+            for tid in RARE:
+                if tid in TEST_IDS:
+                    mask &= ~(1 << TEST_IDS.index(tid))
         sel = []
         i = 0
         mm = mask

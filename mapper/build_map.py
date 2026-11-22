@@ -5,6 +5,7 @@ usage: python build_map.py <sqlglot checkout> <tests.json> <out map> <trace dir>
 Every trace dir is searched recursively for trace-*.json files.
 """
 
+import ast
 import json
 import lzma
 import sys
@@ -24,10 +25,12 @@ types = defaultdict(int)
 opens = defaultdict(int)
 imp_lines = defaultdict(set)  # lines executed while importing sqlglot (function or module code)
 mro = {}
+import_types = set()
 triggers = defaultdict(dict)  # file -> line -> {(file, line)} statements that ran it at import
 
 setup_by_class = defaultdict(list)
 collect_by_file = defaultdict(list)
+owner_by_file = defaultdict(list)
 per_test = defaultdict(list)
 
 
@@ -52,12 +55,15 @@ for td in trace_dirs:
             for l, ts in d.items():
                 triggers[f].setdefault(int(l), set()).update(tuple(t) for t in ts)
         if data.get("import"):
+            import_types.update(data["import"].get("types", []))
             for f, ls in data["import"]["lines"].items():
                 imp_lines[f].update(ls)
             for f, ls in data["import"]["mlines"].items():
                 imp_lines[f].update(ls)
         for mod, d in data["collect"].items():
             collect_by_file[mod].append(d)
+        for own, d in data.get("owners", {}).items():
+            owner_by_file[own].append(d)
         for nid, phases in data["tests"].items():
             if nid not in num:
                 base = nid.split("[")[0]
@@ -108,6 +114,52 @@ for c, ds in setup_by_class.items():
 for f, ds in collect_by_file.items():
     for d in ds:
         add(files_tests.get(f, 0), d)
+
+
+# test modules each test file imports (transitively): their import-time work is its too
+def _test_imports(rel):
+    out = set()
+    p = root / rel
+    try:
+        tree = ast.parse(p.read_text(encoding="utf-8"))
+    except (SyntaxError, OSError):
+        return out
+    pkg = rel.rsplit("/", 1)[0]
+    for n in ast.walk(tree):
+        mods = []
+        if isinstance(n, ast.ImportFrom):
+            if n.level:
+                base = pkg.split("/")
+                base = base[: len(base) - (n.level - 1)] if n.level > 1 else base
+                mods.append("/".join(base + ([n.module.replace(".", "/")] if n.module else [])))
+                mods += ["/".join(base + ([n.module.replace(".", "/")] if n.module else []) + [a.name]) for a in n.names]
+            elif n.module and n.module.split(".")[0] == "tests":
+                mods.append(n.module.replace(".", "/"))
+                mods += [n.module.replace(".", "/") + "/" + a.name for a in n.names]
+        elif isinstance(n, ast.Import):
+            mods += [a.name.replace(".", "/") for a in n.names if a.name.split(".")[0] == "tests"]
+        for m in mods:
+            for cand in (m + ".py", m + "/__init__.py"):
+                if (root / cand).exists():
+                    out.add(cand)
+    return out
+
+
+_deps = {}
+for tf in {t["file"] for t in tests}:
+    seen, todo = set(), [tf]
+    while todo:
+        x = todo.pop()
+        if x in seen:
+            continue
+        seen.add(x)
+        todo += list(_test_imports(x))
+    _deps[tf] = seen
+for tf, deps in _deps.items():
+    for dep in deps:
+        for d in owner_by_file.get(dep, ()):
+            add(files_tests[tf], d)
+print("test files importing other test modules:", sum(1 for v in _deps.values() if len(v) > 1), file=sys.stderr)
 
 # Lazily filled caches: the test that fills one is just the first of the tests relying on
 # it. Every line of a function that stores into a cache counts for every test that ran
@@ -163,15 +215,42 @@ name_tests = defaultdict(int)
 func_index = defaultdict(list)  # function name -> [(file, first, last)]
 
 
+import_names = set()  # names read by function code that runs while sqlglot is imported
+class_creation_names = set()
+class_headers = set()
+for _p in sorted((root / "sqlglot").rglob("*.py")):
+    _rel = _p.relative_to(root).as_posix()
+    for _n in ast.walk(ast.parse(_p.read_text(encoding="utf-8"))):
+        if isinstance(_n, ast.ClassDef):
+            _first = min([_n.lineno] + [d.lineno for d in _n.decorator_list])
+            for _l in range(_first, _n.body[0].lineno):
+                class_headers.add((_rel, _l))
+
+
+def code_names(code):
+    out = set(code.co_names)
+    for c in code.co_consts:
+        if isinstance(c, str) and c.isidentifier():
+            out.add(c)
+    return out
+
+
 def walk(code, f, fl):
     ls = {l for _, _, l in code.co_lines() if l}
     if code.co_flags & 1 and ls:
         m = 0
         for l in ls:
             m |= fl.get(l, 0)
-        if m:
-            for nm in code.co_names:
-                name_tests[nm] |= m
+        nms = code_names(code)
+        if f.startswith("sqlglot/") and ls & imp_lines.get(f, set()):
+            import_names.update(nms)
+            # run because a class statement executed (metaclass / __init_subclass__ work)
+            trig = triggers.get(f, {})
+            for l in ls:
+                for tf, tl in trig.get(l, ()):
+                    if (tf, tl) in class_headers:
+                        class_creation_names.update(nms)
+                        break
     for c in code.co_consts:
         if hasattr(c, "co_code"):
             walk(c, f, fl)
@@ -184,6 +263,83 @@ for p in sorted((root / "sqlglot").rglob("*.py")) + sorted((root / "tests").rglo
     except SyntaxError:
         continue
     walk(code, rel, lines.get(rel, {}))
+
+# names -> tests that ran a statement (inside a function) mentioning them
+class _StmtNames(ast.NodeVisitor):
+    def __init__(self, fl):
+        self.fl, self.depth = fl, 0
+
+    def visit_FunctionDef(self, node):
+        self.depth += 1
+        for st in node.body:
+            self.visit(st)
+        self.depth -= 1
+
+    visit_AsyncFunctionDef = visit_FunctionDef
+
+    def visit_Lambda(self, node):
+        self.depth += 1
+        self._names(node.body, node.lineno, node.end_lineno)
+        self.depth -= 1
+
+    def _names(self, node, lo, hi):
+        m = 0
+        for l in range(lo, (hi or lo) + 1):
+            m |= self.fl.get(l, 0)
+        if not m:
+            return
+        for n in ast.walk(node):
+            if isinstance(n, ast.Name):
+                name_tests[n.id] |= m
+            elif isinstance(n, ast.Attribute):
+                name_tests[n.attr] |= m
+            elif isinstance(n, ast.Constant) and isinstance(n.value, str) and n.value.isidentifier():
+                name_tests[n.value] |= m
+
+    def generic_visit(self, node):
+        if self.depth and isinstance(node, ast.stmt):
+            bodies = [f for f in ("body", "orelse", "finalbody", "handlers", "cases") if getattr(node, f, None)]
+            if bodies:
+                # compound statement: header expressions only, then the bodies
+                for fld, val in ast.iter_fields(node):
+                    if fld in ("body", "orelse", "finalbody", "handlers", "cases"):
+                        continue
+                    if isinstance(val, ast.AST):
+                        self._names(val, val.lineno if hasattr(val, "lineno") else node.lineno,
+                                    getattr(val, "end_lineno", node.lineno))
+                    elif isinstance(val, list):
+                        for v in val:
+                            if isinstance(v, ast.AST) and hasattr(v, "lineno"):
+                                self._names(v, v.lineno, v.end_lineno)
+                for fld in bodies:
+                    for ch in getattr(node, fld):
+                        if isinstance(ch, ast.excepthandler):
+                            if ch.type is not None:
+                                self._names(ch.type, ch.lineno, ch.type.end_lineno)
+                            for c2 in ch.body:
+                                self.visit(c2)
+                        elif isinstance(ch, ast.match_case):
+                            for c2 in ch.body:
+                                self.visit(c2)
+                        else:
+                            self.visit(ch)
+                return
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                return super().generic_visit(node)
+            self._names(node, node.lineno, node.end_lineno)
+            for n in ast.walk(node):
+                if isinstance(n, ast.Lambda):
+                    pass
+            return
+        super().generic_visit(node)
+
+
+for p in sorted((root / "sqlglot").rglob("*.py")) + sorted((root / "tests").rglob("*.py")):
+    rel = p.relative_to(root).as_posix()
+    try:
+        _StmtNames(lines.get(rel, {})).visit(ast.parse(p.read_text(encoding="utf-8")))
+    except SyntaxError:
+        pass
 
 # Static facts about module/class-level code, and tests per function name.
 import ast  # noqa: E402
@@ -278,6 +434,8 @@ out_map = {
     "types": {c: sid(m) for c, m in sorted(types.items())},
     "opens": {o: sid(m) for o, m in sorted(opens.items())},
     "names": {nm: sid(m) for nm, m in sorted(name_tests.items())},
+    "class_creation_names": sorted(class_creation_names),
+    "import_types": sorted(import_types),
     "funcs": {nm: sid(m) for nm, m in sorted(func_tests.items())},
     "static": static_stmts,
     "triggers": {f: {str(l): sorted(map(list, ts)) for l, ts in sorted(d.items())} for f, d in sorted(triggers.items())},

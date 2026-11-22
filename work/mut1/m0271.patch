@@ -1,0 +1,13 @@
+diff --git a/sqlglot/parsers/oracle.py b/sqlglot/parsers/oracle.py
+index 1111111..2222222 100644
+--- a/sqlglot/parsers/oracle.py
++++ b/sqlglot/parsers/oracle.py
+@@ -75,7 +75,7 @@
+         "TO_DATE": _build_str_to_time(exp.StrToDate),
+         "TRUNC": build_formatted_trunc,
+         "VARIANCE": lambda args: exp.Variance(
+-            this=seq_get(args, 0), single_value_returns_zero=True
++            this=seq_get(args, 0), single_value_returns_zero=False
+         ),
+     }
+ 

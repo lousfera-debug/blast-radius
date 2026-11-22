@@ -1,0 +1,38 @@
+diff --git a/sqlglot/expressions/core.py b/sqlglot/expressions/core.py
+index 1111111..2222222 100644
+--- a/sqlglot/expressions/core.py
++++ b/sqlglot/expressions/core.py
+@@ -362,7 +362,7 @@
+         raise NotImplementedError
+ 
+     def walk(
+-        self, bfs: bool = True, prune: t.Callable[[Expr], bool] | None = None
++        self, bfs: bool = False, prune: t.Callable[[Expr], bool] | None = None
+     ) -> Iterator[Expr]:
+         """
+         Returns a generator object which visits all nodes in this tree.
+diff --git a/sqlglot/optimizer/simplify.py b/sqlglot/optimizer/simplify.py
+index 1111111..2222222 100644
+--- a/sqlglot/optimizer/simplify.py
++++ b/sqlglot/optimizer/simplify.py
+@@ -867,7 +867,7 @@
+             this = expression.this
+             if is_null(this):
+                 return _parenthesize_nested_connector(
+-                    exp.and_(exp.null(), exp.true(), copy=False), expression.parent
++                    exp.and_(exp.null(), exp.true(), copy=True), expression.parent
+                 )
+             if this.__class__ in self.COMPLEMENT_COMPARISONS:
+                 right = this.expression
+diff --git a/sqlglot/typing/clickhouse.py b/sqlglot/typing/clickhouse.py
+index 1111111..2222222 100644
+--- a/sqlglot/typing/clickhouse.py
++++ b/sqlglot/typing/clickhouse.py
+@@ -9,6 +9,7 @@
+         expr_type: {"returns": exp.DType.UBIGINT}
+         for expr_type in {
+             exp.CountIf,
++        # See dialect docs
+         }
+     },
+     exp.MD5Digest: {

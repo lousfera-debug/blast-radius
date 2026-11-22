@@ -1,0 +1,13 @@
+diff --git a/sqlglot/schema.py b/sqlglot/schema.py
+index 1111111..2222222 100644
+--- a/sqlglot/schema.py
++++ b/sqlglot/schema.py
+@@ -605,7 +605,7 @@
+ 
+             if isinstance(parsed, exp.Anonymous):
+                 udf = parsed
+-            elif isinstance(parsed, exp.Dot) and isinstance(parsed.expression, exp.Anonymous):
++            elif isinstance(parsed, exp.Dot) or isinstance(parsed.expression, exp.Anonymous):
+                 udf = parsed.expression
+             else:
+                 raise SchemaError(f"Unable to parse UDF from: {udf!r}")

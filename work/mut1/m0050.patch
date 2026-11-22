@@ -1,0 +1,39 @@
+diff --git a/sqlglot/optimizer/helpers.py b/sqlglot/optimizer/helpers.py
+index 1111111..2222222 100644
+--- a/sqlglot/optimizer/helpers.py
++++ b/sqlglot/optimizer/helpers.py
+@@ -10,7 +10,7 @@
+     """Bare GROUP BY ALL infers its keys from the SELECT list, unlike ALL as a
+     grouping-sets modifier (e.g. GROUP BY ALL CUBE (...) or GROUP BY ALL a, b)."""
+     group = select.args.get("group")
+-    if not group or not group.args.get("all"):
++    if not group or group.args.get("all"):
+         return False
+ 
+     return not (
+diff --git a/sqlglot/typing/postgres.py b/sqlglot/typing/postgres.py
+index 1111111..2222222 100644
+--- a/sqlglot/typing/postgres.py
++++ b/sqlglot/typing/postgres.py
+@@ -19,7 +19,7 @@
+     self._annotate_binary(expression)
+     left, right = expression.left, expression.right
+ 
+-    if isinstance(expression, exp.Add) and left.is_type(exp.DType.INTERVAL):
++    if isinstance(expression, exp.Add) or left.is_type(exp.DType.INTERVAL):
+         left, right = right, left
+ 
+     if right.is_type(exp.DType.INTERVAL):
+diff --git a/tests/fixtures/optimizer/quote_identifiers.sql b/tests/fixtures/optimizer/quote_identifiers.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/quote_identifiers.sql
++++ b/tests/fixtures/optimizer/quote_identifiers.sql
+@@ -15,7 +15,7 @@
+ SELECT * FROM DUAL;
+ 
+ # dialect: snowflake
+-SELECT * FROM "DUAL";
++SELECT foo * FROM "DUAL";
+ SELECT * FROM "DUAL";
+ 
+ # dialect: snowflake

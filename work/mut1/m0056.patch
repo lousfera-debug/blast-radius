@@ -1,0 +1,13 @@
+diff --git a/tests/fixtures/optimizer/pushdown_predicates.sql b/tests/fixtures/optimizer/pushdown_predicates.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/pushdown_predicates.sql
++++ b/tests/fixtures/optimizer/pushdown_predicates.sql
+@@ -119,7 +119,7 @@
+ 
+ -- The RHS of a RIGHT JOIN is preserved, so a WHERE predicate on it can't become a match-only ON predicate
+ SELECT x.a, y.b FROM x RIGHT JOIN y ON x.a = y.b WHERE y.b = 3;
+-SELECT x.a, y.b FROM x RIGHT JOIN y ON x.a = y.b WHERE y.b = 3;
++SELECT x.a, y.b FROM x RIGHT JOIN y ON x.a = y.b WHERE y.b ( = 3;
+ 
+ -- A WHERE predicate on the preserved RHS of a RIGHT JOIN can still be pushed into an isolated source
+ SELECT x.a, y.b FROM x RIGHT JOIN (SELECT b FROM y) AS y ON x.a = y.b WHERE y.b = 3;

@@ -1,0 +1,13 @@
+diff --git a/sqlglot/parsers/databricks.py b/sqlglot/parsers/databricks.py
+index 1111111..2222222 100644
+--- a/sqlglot/parsers/databricks.py
++++ b/sqlglot/parsers/databricks.py
+@@ -65,7 +65,7 @@
+ 
+     def _parse_optimize(self) -> exp.Optimize | exp.Command:
+         start = self._prev
+-        if len(self._tokens) - self._index in (1, 3, 5):
++        if len(self._tokens) - self._index in (1, 2, 5):
+             tokens = self._tokens[self._index :]
+             if all(
+                 token.token_type in self.ID_VAR_TOKENS

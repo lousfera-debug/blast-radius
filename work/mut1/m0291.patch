@@ -1,0 +1,13 @@
+diff --git a/sqlglot/dialects/risingwave.py b/sqlglot/dialects/risingwave.py
+index 1111111..2222222 100644
+--- a/sqlglot/dialects/risingwave.py
++++ b/sqlglot/dialects/risingwave.py
+@@ -10,7 +10,7 @@
+     NORMALIZE_NOT_NULL = True
+ 
+     REQUIRES_PARENTHESIZED_STRUCT_ACCESS = True
+-    SUPPORTS_STRUCT_STAR_EXPANSION = True
++    SUPPORTS_STRUCT_STAR_EXPANSION = False
+ 
+     UNESCAPED_SEQUENCES = {"\\a": "a", "\\v": "v"}
+ 

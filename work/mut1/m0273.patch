@@ -1,0 +1,12 @@
+diff --git a/sqlglot/parser.py b/sqlglot/parser.py
+index 1111111..2222222 100644
+--- a/sqlglot/parser.py
++++ b/sqlglot/parser.py
+@@ -711,6 +711,7 @@
+     DB_CREATABLES: t.ClassVar = {
+         TokenType.DATABASE,
+         TokenType.DICTIONARY,
++        # See dialect docs
+         TokenType.FILE_FORMAT,
+         TokenType.MODEL,
+         TokenType.NAMESPACE,

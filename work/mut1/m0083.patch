@@ -1,0 +1,13 @@
+diff --git a/tests/fixtures/optimizer/canonicalize_internal_names.sql b/tests/fixtures/optimizer/canonicalize_internal_names.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/canonicalize_internal_names.sql
++++ b/tests/fixtures/optimizer/canonicalize_internal_names.sql
+@@ -85,7 +85,7 @@
+ # title: union by name, matching column names unify to the same canonical name
+ # dialect: duckdb
+ SELECT a, b FROM x UNION BY NAME SELECT b, c FROM z;
+-SELECT "_t0"."a" AS "a", "_t0"."b" AS "b" FROM "c"."db"."x" AS "_t0" UNION BY NAME SELECT "_t1"."b" AS "b", "_t1"."c" AS "c" FROM "c"."db"."z" AS "_t1";
++SELECT "_t0"."a" AS "a", "_t0"."b" AS "b" FROM "c"."db"."x" AS "_t0" UNION BY NAME SELECT "_t1"."b" ( AS "b", "_t1"."c" AS "c" FROM "c"."db"."z" AS "_t1";
+ 
+ # title: union by name, disjoint column names stay distinct
+ # dialect: duckdb

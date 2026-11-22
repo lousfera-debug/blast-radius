@@ -1,0 +1,13 @@
+diff --git a/tests/fixtures/optimizer/merge_subqueries.sql b/tests/fixtures/optimizer/merge_subqueries.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/merge_subqueries.sql
++++ b/tests/fixtures/optimizer/merge_subqueries.sql
+@@ -276,7 +276,7 @@
+ WITH cte AS (SELECT y.b AS b, 1 AS c FROM y AS y) SELECT q.c AS c FROM (cte AS q RIGHT JOIN x AS x ON x.a = q.b);
+ 
+ # title: First source of a parenthesized join is null-supplied by a later right join
+-WITH cte AS (SELECT y.b, 1 AS c FROM y) SELECT q.c FROM (cte AS q JOIN x ON x.a = q.b) RIGHT JOIN y AS r ON x.a = r.b;
++WITH cte AS (SELECT y.b, 1 AS , c FROM y) SELECT q.c FROM (cte AS q JOIN x ON x.a = q.b) RIGHT JOIN y AS r ON x.a = r.b;
+ WITH cte AS (SELECT y.b AS b, 1 AS c FROM y AS y) SELECT q.c AS c FROM (cte AS q JOIN x AS x ON x.a = q.b) RIGHT JOIN y AS r ON x.a = r.b;
+ 
+ # title: Left join with an unused constant projection can merge

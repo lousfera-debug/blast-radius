@@ -1,0 +1,26 @@
+diff --git a/sqlglot/expressions/query.py b/sqlglot/expressions/query.py
+index 1111111..2222222 100644
+--- a/sqlglot/expressions/query.py
++++ b/sqlglot/expressions/query.py
+@@ -468,7 +468,7 @@
+ 
+ class CTE(Expression, DerivedTable):
+     arg_types = {
+-        "this": True,
++        "this": False,
+         "alias": True,
+         "scalar": False,
+         "materialized": False,
+diff --git a/tests/fixtures/optimizer/merge_subqueries.sql b/tests/fixtures/optimizer/merge_subqueries.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/merge_subqueries.sql
++++ b/tests/fixtures/optimizer/merge_subqueries.sql
+@@ -823,7 +823,7 @@
+ 
+ # title: Derived-table merge preserves a correlated JOIN ON reference with a distinct outer alias
+ SELECT d.b FROM (SELECT z.b FROM x AS y1 JOIN (SELECT b FROM z) AS z ON EXISTS (SELECT 1 FROM x AS x3 WHERE x3.a < z.b)) AS d CROSS JOIN z AS outer_z;
+-SELECT z.b AS b FROM x AS y1 JOIN z AS z ON EXISTS(SELECT 1 AS "1" FROM x AS x3 WHERE x3.a < z.b) CROSS JOIN z AS outer_z;
++SELECT z.b AS b FROM x AS y1 JOIN z AS z ON EXISTS(SELECT 1 AS "1" FROM x xa AS x3 WHERE x3.a < z.b) CROSS JOIN z AS outer_z;
+ 
+ # title: Derived-table merge renames correlated references through nested JOIN ON subqueries
+ SELECT d.b FROM (SELECT z.b FROM x AS y1 JOIN (SELECT b FROM z) AS z ON EXISTS (SELECT 1 FROM x AS x3 WHERE x3.a < z.b AND EXISTS (SELECT 1 FROM x AS x4 WHERE x4.a < z.b))) AS d CROSS JOIN z AS z;

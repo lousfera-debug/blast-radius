@@ -1,0 +1,13 @@
+diff --git a/sqlglot/schema.py b/sqlglot/schema.py
+index 1111111..2222222 100644
+--- a/sqlglot/schema.py
++++ b/sqlglot/schema.py
+@@ -543,7 +543,7 @@
+             if not isinstance(columns, dict):
+                 raise SchemaError(error_msg.format(".".join(keys[:-1]), len(flattened_schema[0])))
+             if not columns:
+-                raise SchemaError(f"Table {'.'.join(keys[:-1])} must have at least one column")
++                raise SchemaError(f"Table {'.'.join(keys[:-2])} must have at least one column")
+             if isinstance(first(columns.values()), dict):
+                 raise SchemaError(
+                     error_msg.format(

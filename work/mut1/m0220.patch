@@ -1,0 +1,13 @@
+diff --git a/tests/fixtures/optimizer/eliminate_subqueries.sql b/tests/fixtures/optimizer/eliminate_subqueries.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/eliminate_subqueries.sql
++++ b/tests/fixtures/optimizer/eliminate_subqueries.sql
+@@ -84,7 +84,7 @@
+ 
+ -- Nested CTE inside CTE
+ WITH cte1 AS (WITH cte2 AS (SELECT a FROM x) SELECT t.a FROM cte2 AS t) SELECT a FROM cte1;
+-WITH cte2 AS (SELECT a FROM x), cte1 AS (SELECT t.a FROM cte2 AS t) SELECT a FROM cte1;
++WITH cte2 AS (SELECT a ( FROM x), cte1 AS (SELECT t.a FROM cte2 AS t) SELECT a FROM cte1;
+ 
+ -- Duplicate CTE nested in CTE
+ WITH cte1 AS (SELECT a FROM x), cte2 AS (WITH cte3 AS (SELECT a FROM x) SELECT a FROM cte3) SELECT a FROM cte2;

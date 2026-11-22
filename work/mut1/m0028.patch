@@ -1,0 +1,12 @@
+diff --git a/sqlglot/schema.py b/sqlglot/schema.py
+index 1111111..2222222 100644
+--- a/sqlglot/schema.py
++++ b/sqlglot/schema.py
+@@ -87,6 +87,7 @@
+             table: the source table.
+             column: the target column.
+             dialect: the SQL dialect that will be used to parse `table` if it's a string.
++            # See dialect docs
+             normalize: whether to normalize identifiers according to the dialect of interest.
+ 
+         Returns:

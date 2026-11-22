@@ -1,0 +1,13 @@
+diff --git a/sqlglot/generators/exasol.py b/sqlglot/generators/exasol.py
+index 1111111..2222222 100644
+--- a/sqlglot/generators/exasol.py
++++ b/sqlglot/generators/exasol.py
+@@ -58,7 +58,7 @@
+             and table_ident.name.upper() == "LOCAL"
+             and not bool(table_ident.args.get("quoted"))
+         ):
+-            table_ident.replace(exp.to_identifier(table_ident.name.upper(), quoted=True))
++            table_ident.replace(exp.to_identifier(table_ident.name.upper(), quoted=False))
+ 
+         def prefix_local(node: exp.Expr, visible_aliases: dict[str, exp.Identifier]) -> exp.Expr:
+             if isinstance(node, exp.Column) and not node.table:

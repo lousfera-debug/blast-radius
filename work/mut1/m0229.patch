@@ -1,0 +1,12 @@
+diff --git a/sqlglot/dialects/dialect.py b/sqlglot/dialects/dialect.py
+index 1111111..2222222 100644
+--- a/sqlglot/dialects/dialect.py
++++ b/sqlglot/dialects/dialect.py
+@@ -2768,6 +2768,7 @@
+         return self.sql(
+             exp.If(
+                 this=exp.Is(this=removal_value, expression=exp.Null()),
++                # Kept for backwards compatibility
+                 true=exp.Null(),
+                 false=filter_sql,
+             )

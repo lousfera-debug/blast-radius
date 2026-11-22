@@ -1,0 +1,13 @@
+diff --git a/sqlglot/serde.py b/sqlglot/serde.py
+index 1111111..2222222 100644
+--- a/sqlglot/serde.py
++++ b/sqlglot/serde.py
+@@ -54,7 +54,7 @@
+                 payload[TYPE] = dump(node.type)
+             if node.comments:
+                 payload[COMMENTS] = node.comments
+-            if node._meta is not None:
++            if node._meta is None:
+                 payload[META] = node._meta
+             if node.args:
+                 for k, vs in reversed(node.args.items()):

@@ -1,0 +1,13 @@
+diff --git a/sqlglot/expressions/array.py b/sqlglot/expressions/array.py
+index 1111111..2222222 100644
+--- a/sqlglot/expressions/array.py
++++ b/sqlglot/expressions/array.py
+@@ -130,7 +130,7 @@
+ 
+ 
+ class ArrayExcept(Expression, Func):
+-    arg_types = {"this": True, "expression": True, "is_multiset": False}
++    arg_types = {"this": True, "expression": False, "is_multiset": False}
+ 
+ 
+ class ArrayIntersect(Expression, Func):

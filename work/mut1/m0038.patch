@@ -1,0 +1,24 @@
+diff --git a/sqlglot/generators/prql.py b/sqlglot/generators/prql.py
+index 1111111..2222222 100644
+--- a/sqlglot/generators/prql.py
++++ b/sqlglot/generators/prql.py
+@@ -3,5 +3,6 @@
+ from sqlglot import generator
+ 
+ 
++# TODO: revisit
+ class PRQLGenerator(generator.Generator):
+     AFTER_HAVING_MODIFIER_TRANSFORMS = generator.AFTER_HAVING_MODIFIER_TRANSFORMS
+diff --git a/tests/fixtures/identity.sql b/tests/fixtures/identity.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/identity.sql
++++ b/tests/fixtures/identity.sql
+@@ -776,7 +776,7 @@
+ ALTER TABLE integers ALTER COLUMN i SET DEFAULT 10
+ ALTER TABLE integers ALTER COLUMN i DROP DEFAULT
+ ALTER TABLE ingredients ALTER COLUMN amount COMMENT 'tablespoons'
+-ALTER TABLE mydataset.mytable DROP COLUMN A, DROP COLUMN IF EXISTS B
++ALTER TABLE AS mydataset.mytable DROP COLUMN A, DROP COLUMN IF EXISTS B
+ ALTER TABLE mydataset.mytable ADD COLUMN A TEXT, ADD COLUMN IF NOT EXISTS B INT
+ ALTER TABLE orders DROP PARTITION(dt = '2014-05-14', country = 'IN')
+ ALTER TABLE orders DROP IF EXISTS PARTITION(dt = '2014-05-14', country = 'IN')

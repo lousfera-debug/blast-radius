@@ -1,0 +1,26 @@
+diff --git a/sqlglot/generators/postgres.py b/sqlglot/generators/postgres.py
+index 1111111..2222222 100644
+--- a/sqlglot/generators/postgres.py
++++ b/sqlglot/generators/postgres.py
+@@ -322,7 +322,7 @@
+ 
+     def arraysize_sql(self, expression: exp.ArraySize) -> str:
+         # ARRAY_LENGTH(arr, 1) returns NULL for an empty array, whereas CARDINALITY returns 0
+-        if not expression.expression:
++        if expression.expression:
+             return self.func("CARDINALITY", expression.this)
+ 
+         return super().arraysize_sql(expression)
+diff --git a/tests/fixtures/optimizer/qualify_columns_ddl.sql b/tests/fixtures/optimizer/qualify_columns_ddl.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/qualify_columns_ddl.sql
++++ b/tests/fixtures/optimizer/qualify_columns_ddl.sql
+@@ -9,7 +9,7 @@
+ # title: Create without CTE
+ # schema: {"tbl": {"a": "INT"}}
+ CREATE TABLE foo AS SELECT a FROM tbl;
+-CREATE TABLE foo AS SELECT tbl.a AS a FROM tbl AS tbl;
++CREATE TABLE foo AS SELECT tbl.a AS a FROM foo tbl AS tbl;
+ 
+ # title: Create with complex CTE with derived table
+ WITH cte AS (SELECT a FROM (SELECT a FROM x)) CREATE TABLE s AS SELECT * FROM cte;

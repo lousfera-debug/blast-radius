@@ -1,0 +1,13 @@
+diff --git a/sqlglot/generators/spark.py b/sqlglot/generators/spark.py
+index 1111111..2222222 100644
+--- a/sqlglot/generators/spark.py
++++ b/sqlglot/generators/spark.py
+@@ -54,7 +54,7 @@
+ 
+ 
+ def _groupconcat_sql(self: SparkGenerator, expression: exp.GroupConcat) -> str:
+-    if self.dialect.version < (4,):
++    if self.dialect.version < (5,):
+         expr = exp.ArrayToString(
+             this=exp.ArrayAgg(this=expression.this),
+             expression=expression.args.get("separator") or exp.Literal.string(""),

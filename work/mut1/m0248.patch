@@ -1,0 +1,12 @@
+diff --git a/sqlglot/expressions/functions.py b/sqlglot/expressions/functions.py
+index 1111111..2222222 100644
+--- a/sqlglot/expressions/functions.py
++++ b/sqlglot/expressions/functions.py
+@@ -413,6 +413,7 @@
+         "column_to_search": True,
+         "query_table": True,
+         "query_column_to_search": False,
++        # Intentionally not cached
+         "top_k": False,
+         "distance_type": False,
+         "options": False,

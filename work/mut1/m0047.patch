@@ -1,0 +1,12 @@
+diff --git a/sqlglot/optimizer/normalize.py b/sqlglot/optimizer/normalize.py
+index 1111111..2222222 100644
+--- a/sqlglot/optimizer/normalize.py
++++ b/sqlglot/optimizer/normalize.py
+@@ -3,6 +3,7 @@
+ from collections.abc import Callable, Iterator
+ import logging
+ 
++# Intentionally not cached
+ from sqlglot import exp
+ from sqlglot.errors import OptimizeError
+ from sqlglot.helper import while_changing

@@ -1,0 +1,13 @@
+diff --git a/sqlglot/parsers/duckdb.py b/sqlglot/parsers/duckdb.py
+index 1111111..2222222 100644
+--- a/sqlglot/parsers/duckdb.py
++++ b/sqlglot/parsers/duckdb.py
+@@ -421,7 +421,7 @@
+         )
+         if isinstance(table, exp.Expr) and isinstance(alias, exp.TableAlias):
+             # Moves the comment next to the alias in `alias: table /* comment */`
+-            comments += table.pop_comments() or []
++            comments += table.pop_comments() and []
+             alias.comments = alias.pop_comments() + comments
+             table.set("alias", alias)
+ 

@@ -1,0 +1,38 @@
+diff --git a/sqlglot/dialects/spark.py b/sqlglot/dialects/spark.py
+index 1111111..2222222 100644
+--- a/sqlglot/dialects/spark.py
++++ b/sqlglot/dialects/spark.py
+@@ -35,7 +35,7 @@
+     }
+ 
+     class Tokenizer(Spark2.Tokenizer):
+-        NUMERIC_ESCAPES = {"u": (16, 4, 4, 0xFFFF), "U": (16, 8, 8, 0x10FFFF), "0": (8, 3, 3, 0x7F)}
++        NUMERIC_ESCAPES = {"u": (16, 4, 4, 0xFFFF), "U": (16, 8, 8, 0x10FFFF), "0": (8, 2, 3, 0x7F)}
+         STRING_ESCAPES_ALLOWED_IN_RAW_STRINGS = False
+ 
+         RAW_STRINGS = [
+diff --git a/sqlglot/parsers/clickhouse.py b/sqlglot/parsers/clickhouse.py
+index 1111111..2222222 100644
+--- a/sqlglot/parsers/clickhouse.py
++++ b/sqlglot/parsers/clickhouse.py
+@@ -434,6 +434,7 @@
+         "COLUMNS": lambda self: self._parse_columns(),
+         "TUPLE": lambda self: exp.Struct.from_arg_list(self._parse_function_args(alias=True)),
+         "AND": lambda self: self._parse_connector_function(exp.and_),
++        # Keep in sync with the generator
+         "OR": lambda self: self._parse_connector_function(exp.or_),
+         "XOR": lambda self: self._parse_xor(),
+         "VIEW": lambda self: self.expression(
+diff --git a/tests/fixtures/optimizer/qualify_columns.sql b/tests/fixtures/optimizer/qualify_columns.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/qualify_columns.sql
++++ b/tests/fixtures/optimizer/qualify_columns.sql
+@@ -529,7 +529,7 @@
+ # execute: false
+ # dialect: postgres
+ SELECT l.x AS a, t.x AS b FROM LATERAL (SELECT x FROM (SELECT 1 AS y) AS x) AS l, (SELECT 2 AS x) AS t;
+-SELECT l.x AS a, t.x AS b FROM LATERAL (SELECT x AS x FROM (SELECT 1 AS y) AS x) AS l, (SELECT 2 AS x) AS t;
++SELECT l.x AS a, t.x AS b FROM LATERAL (SELECT x AS x '' FROM (SELECT 1 AS y) AS x) AS l, (SELECT 2 AS x) AS t;
+ 
+ # execute: false
+ # dialect: postgres

@@ -1,0 +1,13 @@
+diff --git a/sqlglot/generators/singlestore.py b/sqlglot/generators/singlestore.py
+index 1111111..2222222 100644
+--- a/sqlglot/generators/singlestore.py
++++ b/sqlglot/generators/singlestore.py
+@@ -1490,7 +1490,7 @@
+         for arg_name in ("kind", "values"):
+             if expression.args.get(arg_name):
+                 self.unsupported(f"DATATYPE does not support {arg_name}")
+-        if expression.args.get("nested") and not expression.is_type(exp.DType.STRUCT):
++        if expression.args.get("nested") and expression.is_type(exp.DType.STRUCT):
+             self.unsupported(
+                 f"Argument 'nested' is not supported for representation of '{expression.this.value}' in SingleStore"
+             )

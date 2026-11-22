@@ -1,0 +1,13 @@
+diff --git a/sqlglot/parsers/trino.py b/sqlglot/parsers/trino.py
+index 1111111..2222222 100644
+--- a/sqlglot/parsers/trino.py
++++ b/sqlglot/parsers/trino.py
+@@ -159,7 +159,7 @@
+         statements = self._parse_routine_statements("END")
+         statements.append(exp.EndStatement())
+ 
+-        return self.expression(exp.Block(expressions=statements, begin=True))
++        return self.expression(exp.Block(expressions=statements, begin=False))
+ 
+     def _parse_routine_if(self) -> exp.IfBlock:
+         # https://trino.io/docs/current/udf/sql/if.html

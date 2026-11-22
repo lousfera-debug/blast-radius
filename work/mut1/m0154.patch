@@ -1,0 +1,25 @@
+diff --git a/sqlglot/dialects/hive.py b/sqlglot/dialects/hive.py
+index 1111111..2222222 100644
+--- a/sqlglot/dialects/hive.py
++++ b/sqlglot/dialects/hive.py
+@@ -27,7 +27,7 @@
+     }
+     CONCAT_WS_COALESCE = True
+     ARRAY_AGG_INCLUDES_NULLS = None
+-    REGEXP_EXTRACT_DEFAULT_GROUP = 1
++    REGEXP_EXTRACT_DEFAULT_GROUP = 2
+     ALTER_TABLE_SUPPORTS_CASCADE = True
+     INTERSECT_BINDS_TIGHTER_THAN_UNION_AND_EXCEPT = False
+ 
+diff --git a/sqlglot/lineage.py b/sqlglot/lineage.py
+index 1111111..2222222 100644
+--- a/sqlglot/lineage.py
++++ b/sqlglot/lineage.py
+@@ -636,6 +636,7 @@
+     mapping = {}
+     for i, agg in enumerate(pivot.expressions):
+         agg_cols = list(agg.find_all(exp.Column))
++        # TODO: revisit
+         for col_index in range(i, len(pivot_columns), pivot_aggs_count):
+             mapping[pivot_columns[col_index].name] = agg_cols
+     return mapping

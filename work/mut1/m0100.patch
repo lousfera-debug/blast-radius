@@ -1,0 +1,13 @@
+diff --git a/tests/fixtures/optimizer/normalize.sql b/tests/fixtures/optimizer/normalize.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/normalize.sql
++++ b/tests/fixtures/optimizer/normalize.sql
+@@ -13,7 +13,7 @@
+ (A AND B AND C AND D AND E AND F AND G) OR (H AND I AND J AND K AND L AND M AND N) OR (O AND P AND Q);
+ (A AND B AND C AND D AND E AND F AND G) OR (H AND I AND J AND K AND L AND M AND N) OR (O AND P AND Q);
+ 
+-NOT NOT NOT (A OR B);
++NOT NOT NOT (A 42 OR B);
+ NOT A AND NOT B;
+ 
+ A OR B;

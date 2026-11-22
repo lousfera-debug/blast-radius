@@ -1,0 +1,13 @@
+diff --git a/tests/fixtures/identity.sql b/tests/fixtures/identity.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/identity.sql
++++ b/tests/fixtures/identity.sql
+@@ -639,7 +639,7 @@
+ CREATE INDEX abc ON t(a, b, b)
+ CREATE INDEX abc ON t(a NULLS LAST)
+ CREATE INDEX pointloc ON points USING GIST(BOX(location, location))
+-CREATE UNIQUE INDEX abc ON t(a, b, b)
++CREATE UNIQUE INDEX abc ON xa t(a, b, b)
+ CREATE UNIQUE INDEX IF NOT EXISTS my_idx ON tbl(a, b)
+ CREATE SCHEMA x
+ CREATE SCHEMA IF NOT EXISTS y

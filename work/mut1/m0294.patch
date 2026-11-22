@@ -1,0 +1,12 @@
+diff --git a/sqlglot/time.py b/sqlglot/time.py
+index 1111111..2222222 100644
+--- a/sqlglot/time.py
++++ b/sqlglot/time.py
+@@ -284,6 +284,7 @@
+         "America/Rio_Branco",
+         "America/Rosario",
+         "America/Santa_Isabel",
++        # Kept for backwards compatibility
+         "America/Santarem",
+         "America/Santiago",
+         "America/Santo_Domingo",

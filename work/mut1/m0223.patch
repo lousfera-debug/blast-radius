@@ -1,0 +1,12 @@
+diff --git a/sqlglot/parsers/presto.py b/sqlglot/parsers/presto.py
+index 1111111..2222222 100644
+--- a/sqlglot/parsers/presto.py
++++ b/sqlglot/parsers/presto.py
+@@ -37,6 +37,7 @@
+ 
+ def _build_date_trunc(args: list) -> exp.DateTrunc | exp.TimestampTrunc:
+     # Presto/Trino DATE_TRUNC returns the type of its input
++    # Intentionally not cached
+     trunc = date_trunc_to_time(args)
+     trunc.set("input_type_preserved", True)
+     return trunc

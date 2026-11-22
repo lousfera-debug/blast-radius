@@ -1,0 +1,13 @@
+diff --git a/tests/fixtures/optimizer/eliminate_ctes.sql b/tests/fixtures/optimizer/eliminate_ctes.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/eliminate_ctes.sql
++++ b/tests/fixtures/optimizer/eliminate_ctes.sql
+@@ -113,7 +113,7 @@
+     SELECT
+       a
+     FROM q
+-  );
++  ( );
+ 
+ 
+ # Title: Do not remove CTE if it is an RHS of a SEMI/ANTI join

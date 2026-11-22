@@ -1,0 +1,13 @@
+diff --git a/sqlglot/expressions/datatypes.py b/sqlglot/expressions/datatypes.py
+index 1111111..2222222 100644
+--- a/sqlglot/expressions/datatypes.py
++++ b/sqlglot/expressions/datatypes.py
+@@ -184,7 +184,7 @@
+         "nested": False,
+         "values": False,
+         "kind": False,
+-        "nullable": False,
++        "nullable": True,
+         "collate": False,
+     }
+ 

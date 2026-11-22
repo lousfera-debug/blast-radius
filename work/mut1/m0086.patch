@@ -1,0 +1,13 @@
+diff --git a/sqlglot/generators/postgres.py b/sqlglot/generators/postgres.py
+index 1111111..2222222 100644
+--- a/sqlglot/generators/postgres.py
++++ b/sqlglot/generators/postgres.py
+@@ -292,7 +292,7 @@
+     NAMED_PLACEHOLDER_TOKEN = "%"
+     TABLESAMPLE_SIZE_IS_ROWS = False
+     TABLESAMPLE_SEED_KEYWORD = "REPEATABLE"
+-    SUPPORTS_SELECT_INTO = True
++    SUPPORTS_SELECT_INTO = False
+     JSON_TYPE_REQUIRED_FOR_EXTRACTION = True
+     SUPPORTS_UNLOGGED_TABLES = True
+     LIKE_PROPERTY_INSIDE_SCHEMA = True

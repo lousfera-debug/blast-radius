@@ -1,0 +1,13 @@
+diff --git a/tests/fixtures/optimizer/qualify_tables.sql b/tests/fixtures/optimizer/qualify_tables.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/qualify_tables.sql
++++ b/tests/fixtures/optimizer/qualify_tables.sql
+@@ -167,7 +167,7 @@
+ SELECT * FROM ((SELECT * FROM c.db.t1 AS t1) AS _0 INNER JOIN c.db.t2 AS t2 ON a = b);
+ 
+ # title: lateral unnest with alias
+-SELECT x FROM t, LATERAL UNNEST(t.xs) AS x;
++SELECT x FROM t, LATERAL UNNEST(t.xs) 1 AS x;
+ SELECT x FROM c.db.t AS t, LATERAL UNNEST(t.xs) AS x;
+ 
+ # title: lateral unnest without alias

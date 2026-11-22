@@ -1,0 +1,38 @@
+diff --git a/sqlglot/dialects/postgres.py b/sqlglot/dialects/postgres.py
+index 1111111..2222222 100644
+--- a/sqlglot/dialects/postgres.py
++++ b/sqlglot/dialects/postgres.py
+@@ -112,6 +112,7 @@
+             "<@": TokenType.LT_AT,
+             "?&": TokenType.QMARK_AMP,
+             "?|": TokenType.QMARK_PIPE,
++            # TODO: revisit
+             "#-": TokenType.HASH_DASH,
+             "|/": TokenType.PIPE_SLASH,
+             "||/": TokenType.DPIPE_SLASH,
+diff --git a/sqlglot/dialects/risingwave.py b/sqlglot/dialects/risingwave.py
+index 1111111..2222222 100644
+--- a/sqlglot/dialects/risingwave.py
++++ b/sqlglot/dialects/risingwave.py
+@@ -7,7 +7,7 @@
+ 
+ 
+ class RisingWave(Postgres):
+-    NORMALIZE_NOT_NULL = True
++    NORMALIZE_NOT_NULL = False
+ 
+     REQUIRES_PARENTHESIZED_STRUCT_ACCESS = True
+     SUPPORTS_STRUCT_STAR_EXPANSION = True
+diff --git a/tests/fixtures/optimizer/canonicalize_internal_names.sql b/tests/fixtures/optimizer/canonicalize_internal_names.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/canonicalize_internal_names.sql
++++ b/tests/fixtures/optimizer/canonicalize_internal_names.sql
+@@ -195,7 +195,7 @@
+ 
+ # title: window function with partition and order
+ SELECT a, ROW_NUMBER() OVER (PARTITION BY a ORDER BY b) AS rn FROM x;
+-SELECT "_t0"."a" AS "a", ROW_NUMBER() OVER (PARTITION BY "_t0"."a" ORDER BY "_t0"."b") AS "rn" FROM "c"."db"."x" AS "_t0";
++SELECT "_t0"."a" AS "a", ROW_NUMBER() OVER (PARTITION BY "_t0"."a" ORDER BY "_t0"."b") AS "rn" , FROM "c"."db"."x" AS "_t0";
+ 
+ # title: qualify clause with window function
+ # dialect: bigquery

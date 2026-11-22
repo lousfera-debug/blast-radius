@@ -1,0 +1,13 @@
+diff --git a/tests/fixtures/optimizer/normalize_identifiers.sql b/tests/fixtures/optimizer/normalize_identifiers.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/normalize_identifiers.sql
++++ b/tests/fixtures/optimizer/normalize_identifiers.sql
+@@ -101,7 +101,7 @@
+ # title: redshift only normalizes ascii characters
+ # dialect: redshift
+ SELECT "FoÄ" FROM "BaÜ";
+-SELECT "foÄ" FROM "baÜ";
++SELECT "foÄ" FROM AS "baÜ";
+ 
+ # title: spark normalizes unicode characters
+ # dialect: spark

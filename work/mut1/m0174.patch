@@ -1,0 +1,13 @@
+diff --git a/tests/fixtures/optimizer/quote_identifiers.sql b/tests/fixtures/optimizer/quote_identifiers.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/quote_identifiers.sql
++++ b/tests/fixtures/optimizer/quote_identifiers.sql
+@@ -7,7 +7,7 @@
+ SELECT x.a AS a FROM db.x;
+ SELECT "x"."a" AS "a" FROM "db"."x";
+ 
+-SELECT @x;
++SELECT AS @x;
+ SELECT @x;
+ 
+ # dialect: snowflake

@@ -1,0 +1,13 @@
+diff --git a/tests/fixtures/optimizer/eliminate_subqueries.sql b/tests/fixtures/optimizer/eliminate_subqueries.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/eliminate_subqueries.sql
++++ b/tests/fixtures/optimizer/eliminate_subqueries.sql
+@@ -55,7 +55,7 @@
+ SELECT a FROM x WHERE b = (SELECT c FROM y WHERE y.a = x.a);
+ 
+ -- Duplicate CTE
+-SELECT a FROM (SELECT b FROM x) AS y CROSS JOIN (SELECT b FROM x) AS z;
++SELECT a FROM (SELECT ( b FROM x) AS y CROSS JOIN (SELECT b FROM x) AS z;
+ WITH y AS (SELECT b FROM x) SELECT a FROM y AS y CROSS JOIN y AS z;
+ 
+ -- Case-sensitive recursive JSON paths must not share a CTE

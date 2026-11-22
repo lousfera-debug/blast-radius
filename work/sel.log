@@ -1,0 +1,300 @@
+m0000: 172 tests 
+m0001: 2 tests 
+m0002: 162 tests sqlglot/typing/hive.py: comment-only
+m0003: 3 tests sqlglot/typing/redshift.py: comment-only
+m0004: 1 tests 
+m0005: 4 tests 
+m0006: 6 tests sqlglot/typing/hive.py: comment-only
+m0007: 292 tests 
+m0008: 9 tests 
+m0009: 0 tests sqlglot/parsers/druid.py: comment-only
+m0010: 1 tests 
+m0011: 249 tests sqlglot/dialects/drill.py: comment-only
+m0012: 1 tests 
+m0013: 5 tests 
+m0014: 0 tests sqlglot/dialects/tsql.py: comment-only
+m0015: 3 tests 
+m0016: 111 tests 
+m0017: 1 tests 
+m0018: 1 tests 
+m0019: 1 tests 
+m0020: 1 tests 
+m0021: 0 tests sqlglot/expressions/properties.py: comment-only
+m0022: 1 tests 
+m0023: 1 tests 
+m0024: 0 tests sqlglot/generators/solr.py: comment-only
+m0025: 232 tests 
+m0026: 1 tests 
+m0027: 0 tests sqlglot/typing/sqlite.py: comment-only
+m0028: 0 tests 
+m0029: 1565 tests 
+m0030: 24 tests 
+m0031: 57 tests 
+m0032: 1 tests 
+m0033: 20 tests 
+m0034: 76 tests 
+m0035: 1 tests 
+m0036: 61 tests 
+m0037: 3 tests 
+m0038: 2 tests sqlglot/generators/prql.py: comment-only
+m0039: 1 tests 
+m0040: 0 tests sqlglot/parsers/clickhouse.py: comment-only
+m0041: 3 tests 
+m0042: 3 tests 
+m0043: 234 tests 
+m0044: 3 tests 
+m0045: 0 tests sqlglot/expressions/constraints.py: comment-only
+m0046: 4 tests 
+m0047: 0 tests sqlglot/optimizer/normalize.py: comment-only
+m0048: 4 tests 
+m0049: 5 tests 
+m0050: 57 tests 
+m0051: 237 tests 
+m0052: 72 tests 
+m0053: 1 tests 
+m0054: 24 tests 
+m0055: 1 tests 
+m0056: 1 tests 
+m0057: 1 tests 
+m0058: 1 tests 
+m0059: 26 tests 
+m0060: 1532 tests sqlglot/errors.py: module names ['ERROR_MESSAGE_CONTEXT_DEFAULT']; module names ['ERROR_MESSAGE_CONTEXT_DEFAULT']; module names ['ERROR_MESSAGE_CONTEXT_DEFAULT']
+m0061: 65 tests 
+m0062: 247 tests 
+m0063: 1585 tests sqlglot/__init__.py: import-time parse_one; import-time parse_one; import-time parse_one
+m0064: 178 tests 
+m0065: 138 tests import fails: ['sqlglot.dialects.oracle']
+m0066: 2 tests 
+m0067: 1 tests 
+m0068: 46 tests 
+m0069: 1 tests 
+m0070: 2 tests 
+m0071: 1 tests 
+m0072: 177 tests sqlglot/expressions/datatypes.py: comment-only
+m0073: 1 tests 
+m0074: 238 tests 
+m0075: 1 tests 
+m0076: 2 tests 
+m0077: 0 tests sqlglot/expressions/query.py: comment-only
+m0078: 0 tests sqlglot/dialects/bigquery.py: comment-only
+m0079: 1 tests 
+m0080: 42 tests 
+m0081: 1620 tests sqlglot/optimizer/__init__.py: import-time __getattr__
+m0082: 5 tests 
+m0083: 1 tests 
+m0084: 6 tests 
+m0085: 12 tests 
+m0086: 262 tests 
+m0087: 2 tests 
+m0088: 1 tests 
+m0089: 1 tests 
+m0090: 1517 tests sqlglot/helper.py: module names ['PYTHON_VERSION']; module names ['PYTHON_VERSION']; module names ['PYTHON_VERSION']
+m0091: 53 tests 
+m0092: 206 tests 
+m0093: 0 tests sqlglot/generators/clickhouse.py: comment-only
+m0094: 1 tests 
+m0095: 15 tests 
+m0096: 21 tests 
+m0097: 1620 tests sqlglot/typing/presto.py: comment-only
+m0098: 262 tests 
+m0099: 1565 tests 
+m0100: 1 tests 
+m0101: 17 tests 
+m0102: 209 tests 
+m0103: 1 tests 
+m0104: 8 tests 
+m0105: 1 tests 
+m0106: 1 tests 
+m0107: 1 tests 
+m0108: 26 tests 
+m0109: 8 tests 
+m0110: 68 tests 
+m0111: 1 tests 
+m0112: 0 tests sqlglot/generators/singlestore.py: comment-only
+m0113: 3 tests 
+m0114: 1 tests 
+m0115: 0 tests sqlglot/typing/redshift.py: comment-only
+m0116: 5 tests 
+m0117: 0 tests sqlglot/optimizer/eliminate_joins.py: comment-only
+m0118: 147 tests sqlglot/dialects/postgres.py: comment-only
+m0119: 0 tests sqlglot/executor/__init__.py: comment-only
+m0120: 3 tests 
+m0121: 37 tests 
+m0122: 1 tests 
+m0123: 1 tests 
+m0124: 51 tests 
+m0125: 11 tests sqlglot/dialects/solr.py: comment-only
+m0126: 0 tests sqlglot/parsers/fabric.py: comment-only
+m0127: 1565 tests 
+m0128: 1 tests 
+m0129: 1 tests 
+m0130: 8 tests 
+m0131: 1 tests 
+m0132: 19 tests sqlglot/dialects/postgres.py: comment-only
+m0133: 1 tests 
+m0134: 1 tests 
+m0135: 111 tests sqlglot/dialects/sqlite.py: comment-only
+m0136: 48 tests 
+m0137: 0 tests sqlglot/executor/__init__.py: comment-only
+m0138: 95 tests 
+m0139: 1 tests 
+m0140: 0 tests sqlglot/generators/tableau.py: comment-only
+m0141: 0 tests sqlglot/generators/python.py: comment-only
+m0142: 51 tests 
+m0143: 1 tests 
+m0144: 243 tests 
+m0145: 0 tests sqlglot/dialects/dremio.py: comment-only
+m0146: 2 tests 
+m0147: 1 tests 
+m0148: 1 tests 
+m0149: 16 tests 
+m0150: 4 tests sqlglot/expressions/string.py: comment-only
+m0151: 0 tests sqlglot/generators/python.py: comment-only
+m0152: 1 tests 
+m0153: 1 tests 
+m0154: 356 tests sqlglot/lineage.py: comment-only
+m0155: 1 tests 
+m0156: 703 tests 
+m0157: 172 tests 
+m0158: 2 tests sqlglot/typing/tsql.py: comment-only
+m0159: 132 tests 
+m0160: 0 tests sqlglot/__init__.py: comment-only
+m0161: 37 tests 
+m0162: 1139 tests sqlglot/parser.py: import-time _parse_select_query
+m0163: 47 tests 
+m0164: 4 tests 
+m0165: 2 tests 
+m0166: 31 tests sqlglot/typing/spark.py: comment-only
+m0167: 1 tests 
+m0168: 26 tests 
+m0169: 1 tests 
+m0170: 94 tests 
+m0171: 6 tests 
+m0172: 0 tests sqlglot/parsers/druid.py: comment-only
+m0173: 61 tests 
+m0174: 1 tests 
+m0175: 51 tests 
+m0176: 1 tests 
+m0177: 2 tests 
+m0178: 105 tests sqlglot/dialects/databricks.py: comment-only
+m0179: 0 tests sqlglot/parsers/tsql.py: comment-only
+m0180: 1588 tests sqlglot/trie.py: import-time new_trie; import-time new_trie; import-time new_trie
+m0181: 225 tests 
+m0182: 2 tests 
+m0183: 0 tests sqlglot/parsers/hive.py: comment-only
+m0184: 4 tests 
+m0185: 1 tests 
+m0186: 1 tests 
+m0187: 1 tests 
+m0188: 4 tests 
+m0189: 1 tests 
+m0190: 2 tests sqlglot/generators/dune.py: comment-only
+m0191: 12 tests 
+m0192: 1 tests 
+m0193: 107 tests 
+m0194: 19 tests 
+m0195: 3 tests sqlglot/generators/risingwave.py: comment-only
+m0196: 0 tests sqlglot/typing/spark.py: comment-only
+m0197: 194 tests 
+m0198: 4 tests 
+m0199: 12 tests 
+m0200: 0 tests sqlglot/generators/bigquery.py: comment-only
+m0201: 0 tests sqlglot/optimizer/simplify.py: comment-only
+m0202: 0 tests sqlglot/expressions/temporal.py: comment-only
+m0203: 8 tests 
+m0204: 9 tests 
+m0205: 94 tests 
+m0206: 7 tests 
+m0207: 40 tests 
+m0208: 967 tests sqlglot/parser.py: import-time _parse_table; import-time _parse_table; import-time _parse_table
+m0209: 3 tests 
+m0210: 55 tests sqlglot/tokenizer_core.py: comment-only
+m0211: 12 tests 
+m0212: 1565 tests sqlglot/parsers/starrocks.py: comment-only
+m0213: 61 tests sqlglot/dialects/clickhouse.py: comment-only
+m0214: 1 tests 
+m0215: 0 tests sqlglot/executor/__init__.py: comment-only
+m0216: 1 tests 
+m0217: 45 tests 
+m0218: 500 tests sqlglot/errors.py: import-time highlight_sql; import-time highlight_sql; import-time highlight_sql
+m0219: 1 tests 
+m0220: 1 tests 
+m0221: 2 tests 
+m0222: 2 tests 
+m0223: 0 tests sqlglot/parsers/presto.py: comment-only
+m0224: 6 tests 
+m0225: 272 tests 
+m0226: 1 tests 
+m0227: 0 tests sqlglot/parsers/redshift.py: comment-only
+m0228: 201 tests 
+m0229: 0 tests sqlglot/dialects/dialect.py: comment-only
+m0230: 0 tests sqlglot/_typing.py: comment-only
+m0231: 7 tests 
+m0232: 0 tests sqlglot/parsers/base.py: comment-only
+m0233: 1 tests 
+m0234: 1 tests 
+m0235: 4 tests 
+m0236: 1 tests 
+m0237: 248 tests 
+m0238: 151 tests sqlglot/dialects/prql.py: comment-only
+m0239: 61 tests 
+m0240: 356 tests 
+m0241: 172 tests sqlglot/executor/env.py: comment-only; import fails: ['sqlglot.parsers.tsql', 'sqlglot.dialects.fabric', 'sqlglot.dialects.tsql', 'sqlglot.generators.fabric']
+m0242: 0 tests sqlglot/expressions/aggregate.py: comment-only
+m0243: 0 tests sqlglot/parsers/mysql.py: comment-only
+m0244: 9 tests 
+m0245: 4 tests 
+m0246: 33 tests 
+m0247: 12 tests 
+m0248: 0 tests sqlglot/expressions/functions.py: comment-only
+m0249: 1 tests 
+m0250: 1 tests 
+m0251: 195 tests sqlglot/parsers/clickhouse.py: comment-only
+m0252: 210 tests 
+m0253: 331 tests 
+m0254: 1 tests 
+m0255: 39 tests 
+m0256: 70 tests 
+m0257: 1620 tests import sqlglot fails: TypeError("unsupported operand type(s) for +: 'set' and 'set'")
+m0258: 20 tests sqlglot/expressions/array.py: comment-only
+m0259: 37 tests 
+m0260: 22 tests 
+m0261: 1 tests 
+m0262: 33 tests 
+m0263: 36 tests 
+m0264: 249 tests 
+m0265: 17 tests 
+m0266: 53 tests 
+m0267: 57 tests 
+m0268: 1 tests 
+m0269: 1 tests 
+m0270: 0 tests sqlglot/dialects/oracle.py: comment-only
+m0271: 51 tests 
+m0272: 0 tests sqlglot/parsers/databricks.py: comment-only
+m0273: 0 tests sqlglot/parser.py: comment-only
+m0274: 1 tests 
+m0275: 0 tests 
+m0276: 12 tests 
+m0277: 1 tests 
+m0278: 1 tests 
+m0279: 0 tests sqlglot/generators/oracle.py: comment-only
+m0280: 1 tests 
+m0281: 53 tests 
+m0282: 0 tests sqlglot/schema.py: comment-only
+m0283: 1 tests 
+m0284: 1 tests 
+m0285: 996 tests sqlglot/typing/clickhouse.py: comment-only
+m0286: 1 tests 
+m0287: 223 tests 
+m0288: 1 tests 
+m0289: 16 tests sqlglot/dialects/prql.py: comment-only
+m0290: 7 tests sqlglot/parsers/base.py: comment-only
+m0291: 18 tests 
+m0292: 5 tests sqlglot/trie.py: comment-only
+m0293: 107 tests 
+m0294: 0 tests sqlglot/time.py: comment-only
+m0295: 1 tests 
+m0296: 139 tests sqlglot/generators/postgres.py: comment-only
+m0297: 0 tests sqlglot/expressions/dml.py: comment-only
+m0298: 1585 tests sqlglot/typing/hive.py: module names ['EXPRESSION_METADATA']; module names ['EXPRESSION_METADATA']; module names ['EXPRESSION_METADATA']
+m0299: 172 tests 

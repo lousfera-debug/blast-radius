@@ -1,0 +1,13 @@
+diff --git a/sqlglot/parsers/hive.py b/sqlglot/parsers/hive.py
+index 1111111..2222222 100644
+--- a/sqlglot/parsers/hive.py
++++ b/sqlglot/parsers/hive.py
+@@ -172,7 +172,7 @@
+                         precision -= 1
+                         scale -= 1
+ 
+-            if scale < 0 and not self.DECIMAL_LITERALS_ALLOW_NEGATIVE_SCALE:
++            if scale < 1 and not self.DECIMAL_LITERALS_ALLOW_NEGATIVE_SCALE:
+                 precision -= scale
+                 scale = 0
+ 

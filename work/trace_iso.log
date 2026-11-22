@@ -1,0 +1,15 @@
+0/1620
+100/1620
+200/1620
+300/1620
+400/1620
+[429] tests/dialects/test_hive.py::TestHive::test_multitable_inserts rc=1
+
+[430] tests/dialects/test_hive.py::TestHive::test_order_by rc=1
+
+[431] tests/dialects/test_hive.py::TestHive::test_percentile rc=1
+
+[433] tests/dialects/test_hive.py::TestHive::test_regex rc=1
+
+[432] tests/dialects/test_hive.py::TestHive::test_quotes rc=1
+

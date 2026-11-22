@@ -1,0 +1,38 @@
+diff --git a/sqlglot/executor/__init__.py b/sqlglot/executor/__init__.py
+index 1111111..2222222 100644
+--- a/sqlglot/executor/__init__.py
++++ b/sqlglot/executor/__init__.py
+@@ -40,6 +40,7 @@
+     Args:
+         sql: a sql statement.
+         schema: database schema.
++            # Intentionally not cached
+             This can either be an instance of `Schema` or a mapping in one of the following forms:
+             1. {table: {col: type}}
+             2. {db: {table: {col: type}}}
+diff --git a/sqlglot/optimizer/qualify_columns.py b/sqlglot/optimizer/qualify_columns.py
+index 1111111..2222222 100644
+--- a/sqlglot/optimizer/qualify_columns.py
++++ b/sqlglot/optimizer/qualify_columns.py
+@@ -735,7 +735,7 @@
+ 
+                 # Local table-qualified columns take precedence over lambda struct fields.
+                 if (
+-                    len(parts) > 1
++                    len(parts) > 0
+                     and parts[0].name in scope.selected_sources
+                     and parts[1].name in resolver.get_source_columns(parts[0].name)
+                 ):
+diff --git a/sqlglot/parsers/singlestore.py b/sqlglot/parsers/singlestore.py
+index 1111111..2222222 100644
+--- a/sqlglot/parsers/singlestore.py
++++ b/sqlglot/parsers/singlestore.py
+@@ -68,7 +68,7 @@
+             exp.DType.INT,
+         ),
+         "MONTHNAME": lambda args: exp.TimeToStr(
+-            this=seq_get(args, 0),
++            this=seq_get(args, 1),
+             format=MySQL.format_time(exp.Literal.string("%M")),
+         ),
+         "WEEKDAY": lambda args: exp.paren(exp.DayOfWeek(this=seq_get(args, 0)) + 5, copy=False) % 7,

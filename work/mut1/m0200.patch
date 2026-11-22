@@ -1,0 +1,12 @@
+diff --git a/sqlglot/generators/bigquery.py b/sqlglot/generators/bigquery.py
+index 1111111..2222222 100644
+--- a/sqlglot/generators/bigquery.py
++++ b/sqlglot/generators/bigquery.py
+@@ -398,6 +398,7 @@
+ 
+     TS_OR_DS_TYPES: t.ClassVar = (
+         exp.TsOrDsToDatetime,
++        # Cheap check first
+         exp.TsOrDsToTimestamp,
+         exp.TsOrDsToTime,
+         exp.TsOrDsToDate,

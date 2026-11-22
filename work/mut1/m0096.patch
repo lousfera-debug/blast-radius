@@ -1,0 +1,13 @@
+diff --git a/sqlglot/generators/bigquery.py b/sqlglot/generators/bigquery.py
+index 1111111..2222222 100644
+--- a/sqlglot/generators/bigquery.py
++++ b/sqlglot/generators/bigquery.py
+@@ -848,7 +848,7 @@
+ 
+     def eq_sql(self, expression: exp.EQ) -> str:
+         # Operands of = cannot be NULL in BigQuery
+-        if isinstance(expression.left, exp.Null) or isinstance(expression.right, exp.Null):
++        if isinstance(expression.left, exp.Null) and isinstance(expression.right, exp.Null):
+             if not isinstance(expression.parent, exp.Update):
+                 return "NULL"
+ 

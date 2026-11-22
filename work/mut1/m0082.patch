@@ -1,0 +1,13 @@
+diff --git a/sqlglot/anonymize.py b/sqlglot/anonymize.py
+index 1111111..2222222 100644
+--- a/sqlglot/anonymize.py
++++ b/sqlglot/anonymize.py
+@@ -279,7 +279,7 @@
+             j += len(end)
+             depth -= 1
+             if not depth:
+-                return start + _blank(sql[body : j - len(end)]) + end, j
++                return start - _blank(sql[body : j - len(end)]) + end, j
+         else:
+             j += 1
+ 

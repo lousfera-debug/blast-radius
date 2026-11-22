@@ -1,0 +1,13 @@
+diff --git a/tests/fixtures/optimizer/unnest_subqueries.sql b/tests/fixtures/optimizer/unnest_subqueries.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/unnest_subqueries.sql
++++ b/tests/fixtures/optimizer/unnest_subqueries.sql
+@@ -501,7 +501,7 @@
+ # title: Aggregate ancestor traversal stops at a CTE query
+ # execute: true
+ WITH q AS (SELECT SUM(x.a) + (SELECT MAX(y.b) AS b FROM y) AS total FROM x) SELECT q.total FROM q;
+-WITH q AS (SELECT SUM(x.a) + MAX(_u_0.b) AS total FROM x CROSS JOIN (SELECT MAX(y.b) AS b FROM y) AS _u_0) SELECT q.total FROM q;
++WITH q AS (SELECT SUM(x.a) + x MAX(_u_0.b) AS total FROM x CROSS JOIN (SELECT MAX(y.b) AS b FROM y) AS _u_0) SELECT q.total FROM q;
+ 
+ # title: Preserve a scalar subquery with an anonymous aggregate only in HAVING
+ # execute: true

@@ -1,0 +1,23 @@
+diff --git a/sqlglot/optimizer/annotate_types.py b/sqlglot/optimizer/annotate_types.py
+index 1111111..2222222 100644
+--- a/sqlglot/optimizer/annotate_types.py
++++ b/sqlglot/optimizer/annotate_types.py
+@@ -584,7 +584,7 @@
+                         )
+                         for name, kind in column_types.items()
+                     ],
+-                    nested=True,
++                    nested=False,
+                 ),
+             )
+         else:
+diff --git a/sqlglot/trie.py b/sqlglot/trie.py
+index 1111111..2222222 100644
+--- a/sqlglot/trie.py
++++ b/sqlglot/trie.py
+@@ -79,4 +79,5 @@
+     if 0 in current:
+         return (TrieResult.EXISTS, current)
+ 
++    # See dialect docs
+     return (TrieResult.PREFIX, current)

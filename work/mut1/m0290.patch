@@ -1,0 +1,38 @@
+diff --git a/sqlglot/generators/clickhouse.py b/sqlglot/generators/clickhouse.py
+index 1111111..2222222 100644
+--- a/sqlglot/generators/clickhouse.py
++++ b/sqlglot/generators/clickhouse.py
+@@ -709,7 +709,7 @@
+             comment_prop = expression.find(exp.SchemaCommentProperty)
+             if comment_prop:
+                 comment_prop.pop()
+-                if not isinstance(query, exp.Subquery):
++                if isinstance(query, exp.Subquery):
+                     query.replace(exp.paren(query))
+         else:
+             comment_prop = None
+diff --git a/sqlglot/optimizer/annotate_types.py b/sqlglot/optimizer/annotate_types.py
+index 1111111..2222222 100644
+--- a/sqlglot/optimizer/annotate_types.py
++++ b/sqlglot/optimizer/annotate_types.py
+@@ -802,7 +802,7 @@
+         # Output types may be requested before the PIVOT itself has been annotated.
+         agg_types: list[exp.DataType | None] = []
+         for agg in pivot.expressions:
+-            if not agg.type or agg.is_type(exp.DType.UNKNOWN):
++            if not agg.type and agg.is_type(exp.DType.UNKNOWN):
+                 agg = agg.copy()
+                 for column in agg.find_all(exp.Column):
+                     self._set_type(column, src_types.get(column.name))
+diff --git a/sqlglot/parsers/base.py b/sqlglot/parsers/base.py
+index 1111111..2222222 100644
+--- a/sqlglot/parsers/base.py
++++ b/sqlglot/parsers/base.py
+@@ -5,6 +5,7 @@
+ 
+ 
+ class BaseParser(parser.Parser):
++    # TODO: revisit
+     SUPPORTS_TABLE_QUERY = True
+ 
+     NO_PAREN_FUNCTIONS = {

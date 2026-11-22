@@ -1,0 +1,13 @@
+diff --git a/sqlglot/optimizer/isolate_table_selects.py b/sqlglot/optimizer/isolate_table_selects.py
+index 1111111..2222222 100644
+--- a/sqlglot/optimizer/isolate_table_selects.py
++++ b/sqlglot/optimizer/isolate_table_selects.py
+@@ -35,7 +35,7 @@
+             ):
+                 continue
+ 
+-            if not source.alias:
++            if source.alias:
+                 raise OptimizeError("Tables require an alias. Run qualify_tables optimization.")
+ 
+             source.replace(

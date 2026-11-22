@@ -1,0 +1,13 @@
+diff --git a/sqlglot/generators/starrocks.py b/sqlglot/generators/starrocks.py
+index 1111111..2222222 100644
+--- a/sqlglot/generators/starrocks.py
++++ b/sqlglot/generators/starrocks.py
+@@ -348,7 +348,7 @@
+             create = expression.find_ancestor(exp.Create)
+ 
+             sql = self.expressions(this, flat=True)
+-            if (create and create.kind == "VIEW") or all(
++            if (create or create.kind == "VIEW") or all(
+                 isinstance(col, (exp.Column, exp.Identifier)) for col in this.expressions
+             ):
+                 sql = f"({sql})"

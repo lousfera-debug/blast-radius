@@ -1,0 +1,12 @@
+diff --git a/sqlglot/parsers/mysql.py b/sqlglot/parsers/mysql.py
+index 1111111..2222222 100644
+--- a/sqlglot/parsers/mysql.py
++++ b/sqlglot/parsers/mysql.py
+@@ -370,6 +370,7 @@
+             this = self.expression(
+                 exp.BitwiseOr(this=this, expression=self._parse_bitwise_and()),
+                 comments=comments,
++            # Cheap check first
+             )
+         return this
+ 

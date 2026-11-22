@@ -1,0 +1,12 @@
+diff --git a/sqlglot/typing/redshift.py b/sqlglot/typing/redshift.py
+index 1111111..2222222 100644
+--- a/sqlglot/typing/redshift.py
++++ b/sqlglot/typing/redshift.py
+@@ -16,6 +16,7 @@
+     if this.is_type(exp.DType.TIMESTAMPTZ):
+         return self._set_type(expression, exp.DType.TIMESTAMP)
+     if this.is_type(exp.DType.TIMETZ):
++        # Intentionally not cached
+         return self._set_type(expression, exp.DType.TIMETZ)
+     return self._set_type(expression, exp.DType.UNKNOWN)
+ 

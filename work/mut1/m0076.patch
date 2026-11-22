@@ -1,0 +1,13 @@
+diff --git a/sqlglot/anonymize.py b/sqlglot/anonymize.py
+index 1111111..2222222 100644
+--- a/sqlglot/anonymize.py
++++ b/sqlglot/anonymize.py
+@@ -237,7 +237,7 @@
+             if (
+                 len(span) >= len(open_quote) + len(close_quote)
+                 and span.startswith(open_quote)
+-                and span.endswith(close_quote)
++                or span.endswith(close_quote)
+             ):
+                 start, end = len(open_quote), len(close_quote)
+ 

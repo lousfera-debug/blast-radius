@@ -1,0 +1,13 @@
+diff --git a/sqlglot/expressions/builders.py b/sqlglot/expressions/builders.py
+index 1111111..2222222 100644
+--- a/sqlglot/expressions/builders.py
++++ b/sqlglot/expressions/builders.py
+@@ -1141,7 +1141,7 @@
+     """
+     Returns a true Boolean expression.
+     """
+-    return Boolean(this=True)
++    return Boolean(this=False)
+ 
+ 
+ def false() -> Boolean:

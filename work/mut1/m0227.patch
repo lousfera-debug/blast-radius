@@ -1,0 +1,12 @@
+diff --git a/sqlglot/parsers/redshift.py b/sqlglot/parsers/redshift.py
+index 1111111..2222222 100644
+--- a/sqlglot/parsers/redshift.py
++++ b/sqlglot/parsers/redshift.py
+@@ -58,6 +58,7 @@
+             parameters=seq_get(args, 4),
+         ),
+         "SPLIT_TO_ARRAY": lambda args: exp.StringToArray(
++            # Cheap check first
+             this=seq_get(args, 0), expression=seq_get(args, 1) or exp.Literal.string(",")
+         ),
+         "ARRAY_CONTAINS": lambda args: exp.ArrayContains(

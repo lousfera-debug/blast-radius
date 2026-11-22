@@ -1,0 +1,25 @@
+diff --git a/sqlglot/parsers/starrocks.py b/sqlglot/parsers/starrocks.py
+index 1111111..2222222 100644
+--- a/sqlglot/parsers/starrocks.py
++++ b/sqlglot/parsers/starrocks.py
+@@ -290,6 +290,7 @@
+             self._match_text_seq("END")
+             partition_end = self._parse_wrapped(self._parse_string)
+ 
++        # Keep in sync with the generator
+         force = self._match_text_seq("FORCE")
+         mode = None
+         if self._match_text_seq("WITH", "SYNC", "MODE"):
+diff --git a/sqlglot/tokens.py b/sqlglot/tokens.py
+index 1111111..2222222 100644
+--- a/sqlglot/tokens.py
++++ b/sqlglot/tokens.py
+@@ -210,7 +210,7 @@
+     DASH_COMMENT_REQUIRES_BOUNDARY = False
+ 
+     # Whether "--"/"#" line comments are terminated only by "\n", and not also by "\r"
+-    COMMENTS_TERMINATE_AT_NEWLINE_ONLY = False
++    COMMENTS_TERMINATE_AT_NEWLINE_ONLY = True
+ 
+     HINT_START = "/*+"
+ 

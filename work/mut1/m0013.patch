@@ -1,0 +1,13 @@
+diff --git a/sqlglot/expressions/ddl.py b/sqlglot/expressions/ddl.py
+index 1111111..2222222 100644
+--- a/sqlglot/expressions/ddl.py
++++ b/sqlglot/expressions/ddl.py
+@@ -302,7 +302,7 @@
+ 
+ 
+ class RenameIndex(Expression):
+-    arg_types = {"this": True, "to": True}
++    arg_types = {"this": False, "to": True}
+ 
+ 
+ class AlterModifySqlSecurity(Expression):

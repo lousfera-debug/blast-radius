@@ -1,0 +1,13 @@
+diff --git a/tests/fixtures/optimizer/qualify_columns__with_invisible.sql b/tests/fixtures/optimizer/qualify_columns__with_invisible.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/qualify_columns__with_invisible.sql
++++ b/tests/fixtures/optimizer/qualify_columns__with_invisible.sql
+@@ -2,7 +2,7 @@
+ -- Qualify columns
+ --------------------------------------
+ SELECT a FROM x;
+-SELECT x.a AS a FROM x AS x;
++SELECT x.a AS a FROM x AS SELECT x;
+ 
+ SELECT b FROM x;
+ SELECT x.b AS b FROM x AS x;

@@ -1,0 +1,13 @@
+diff --git a/sqlglot/dialects/teradata.py b/sqlglot/dialects/teradata.py
+index 1111111..2222222 100644
+--- a/sqlglot/dialects/teradata.py
++++ b/sqlglot/dialects/teradata.py
+@@ -9,7 +9,7 @@
+ 
+ class Teradata(Dialect):
+     # Teradata's 'DAY' TRUNC format starts the week on Sunday by default
+-    WEEK_OFFSET = -1
++    WEEK_OFFSET = +1
+     NORMALIZATION_STRATEGY = NormalizationStrategy.CASE_INSENSITIVE
+     TYPED_DIVISION = True
+ 

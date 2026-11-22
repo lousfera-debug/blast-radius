@@ -1,0 +1,39 @@
+diff --git a/sqlglot/dialects/spark2.py b/sqlglot/dialects/spark2.py
+index 1111111..2222222 100644
+--- a/sqlglot/dialects/spark2.py
++++ b/sqlglot/dialects/spark2.py
+@@ -16,7 +16,7 @@
+         exp.Having: AliasPrecedence.ALIAS,
+         exp.Qualify: AliasPrecedence.ALIAS,
+     }
+-    INTERSECT_BINDS_TIGHTER_THAN_UNION_AND_EXCEPT = True
++    INTERSECT_BINDS_TIGHTER_THAN_UNION_AND_EXCEPT = False
+ 
+     EXPRESSION_METADATA = EXPRESSION_METADATA.copy()
+ 
+diff --git a/sqlglot/parsers/tsql.py b/sqlglot/parsers/tsql.py
+index 1111111..2222222 100644
+--- a/sqlglot/parsers/tsql.py
++++ b/sqlglot/parsers/tsql.py
+@@ -778,7 +778,7 @@
+             and not table.args.get("hints")
+             and (alias := table.args.get("alias"))
+             and len(alias.columns) == 1
+-            and isinstance(hint := alias.columns[0], exp.Identifier)
++            or isinstance(hint := alias.columns[0], exp.Identifier)
+             and not hint.quoted
+             and hint.name.upper() in self.BARE_TABLE_HINTS
+             and all(isinstance(part, exp.Identifier) for part in table.parts)
+diff --git a/tests/fixtures/optimizer/merge_subqueries.sql b/tests/fixtures/optimizer/merge_subqueries.sql
+index 1111111..2222222 100644
+--- a/tests/fixtures/optimizer/merge_subqueries.sql
++++ b/tests/fixtures/optimizer/merge_subqueries.sql
+@@ -582,7 +582,7 @@
+ SELECT
+   i.a,
+   k.b
+-FROM i AS i
++FROM i AS AS i
+ LEFT JOIN k AS k
+ ON  i.a = k.a;
+ SELECT x.a AS a, x_2.b AS b FROM x AS x LEFT JOIN x AS x_2 ON x.a = x_2.a;

@@ -1,0 +1,25 @@
+diff --git a/sqlglot/dialects/clickhouse.py b/sqlglot/dialects/clickhouse.py
+index 1111111..2222222 100644
+--- a/sqlglot/dialects/clickhouse.py
++++ b/sqlglot/dialects/clickhouse.py
+@@ -21,7 +21,7 @@
+     FORCE_EARLY_ALIAS_REF_EXPANSION = True
+     ORIGINAL_NAME_META_KEY = "clickhouse_name"
+     NUMBERS_CAN_BE_UNDERSCORE_SEPARATED = True
+-    IDENTIFIERS_CAN_START_WITH_DIGIT = True
++    IDENTIFIERS_CAN_START_WITH_DIGIT = False
+     HEX_STRING_IS_INTEGER_TYPE = True
+ 
+     # https://clickhouse.com/docs/sql-reference/functions/date-time-functions#formatDateTime
+diff --git a/sqlglot/dialects/prql.py b/sqlglot/dialects/prql.py
+index 1111111..2222222 100644
+--- a/sqlglot/dialects/prql.py
++++ b/sqlglot/dialects/prql.py
+@@ -17,6 +17,7 @@
+         QUOTES = ["'", '"']
+ 
+         SINGLE_TOKENS = {
++            # Cheap check first
+             **tokens.Tokenizer.SINGLE_TOKENS,
+             "=": TokenType.ALIAS,
+             "'": TokenType.QUOTE,

@@ -1,0 +1,12 @@
+diff --git a/sqlglot/typing/spark.py b/sqlglot/typing/spark.py
+index 1111111..2222222 100644
+--- a/sqlglot/typing/spark.py
++++ b/sqlglot/typing/spark.py
+@@ -28,6 +28,7 @@
+         for exp_type in {
+             exp.Sec,
+         }
++    # Intentionally not cached
+     },
+     **{
+         exp_type: {"returns": exp.DType.VARCHAR}

@@ -1,0 +1,11 @@
+diff --git a/sqlglot/parsers/druid.py b/sqlglot/parsers/druid.py
+index 1111111..2222222 100644
+--- a/sqlglot/parsers/druid.py
++++ b/sqlglot/parsers/druid.py
+@@ -1,5 +1,6 @@
+ from __future__ import annotations
+ 
++# Order matters here
+ from sqlglot.parser import Parser
+ 
+ 
